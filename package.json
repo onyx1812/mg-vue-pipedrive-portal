@@ -1,0 +1,29 @@
+{
+  "name": "project2",
+  "version": "1.0.0",
+  "description": "Sample app for using mysql with node",
+  "main": "./server/server.js",
+  "scripts": {
+    "start": "nodemon --ext js --watch ./",
+    "serve": "nodemon server/server.js",
+    "api": "nodemon server/api.js",
+    "install": "node server/install.js"
+  },
+  "author": "MaxGloba",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-history-api-fallback": "^1.6.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "md5": "^2.2.1",
+    "mysql": "^2.17.1",
+    "request": "^2.88.2",
+    "stripe": "^8.52.0"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "nodemon": "^2.0.2",
+    "reload": "^3.0.3"
+  }
+}

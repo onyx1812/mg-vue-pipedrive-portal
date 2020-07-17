@@ -1,0 +1,10 @@
+html, body, #app{
+  color:$text;
+  line-height: 1.3;
+  font-size: 14px;
+}
+
+#app{
+  background: $main;
+  position: relative;
+}
