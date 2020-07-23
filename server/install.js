@@ -4,9 +4,9 @@ Connect DB
 const mysql = require('mysql')
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'mg-vue-pipedrive-portal'
+  user: 'apheco_admin',
+  password: 'BWJL)an-H(Ml',
+  database: 'apheco_portal'
 });
 db.connect(err => {
   if(err){ throw err }

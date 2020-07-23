@@ -3,8 +3,12 @@ const bodyParser = require('body-parser');
 const md5 = require('md5');
 const md5_hash = md5('!@#$%^&*()_+');
 const cors = require('cors');
-const app = express();
-const port = 8000;
+const path = require('path')
+const http = require('http')
+const reload = require('reload')
+const port = process.env.PORT || 8000
+const app = express()
+const server = http.createServer(app)
 
 const request = require("request");
 const api_token = '67a36030ab687236cf7250283f5cb55170df2e88';
@@ -20,14 +24,29 @@ Connect DB
 const mysql = require('mysql')
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'mg-vue-pipedrive-portal'
+  user: 'apheco_admin',
+  password: 'BWJL)an-H(Ml',
+  database: 'apheco_portal'
 });
 db.connect(err => {
   if(err){ throw err }
 });
 
+/*-------------------------------------------
+Path settings
+-------------------------------------------*/
+const frontPath = path.join(__dirname, '../front/dist/')
+app.set("view options", {layout: false});
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set('views', path.join(frontPath));
+app.use(express.static(frontPath))
+app.use(express.json())
+
+
+/*-------------------------------------------
+Routing
+-------------------------------------------*/
 app.get('/api/user/', (req, res) => {
   const email = req.query.email;
   const password = req.query.password;
@@ -143,8 +162,23 @@ app.get('/api/deals/', (req, res) => {
 });
 
 
+app.get('/', (req, res) => {
+  res.render(path.join(frontPath+'index.html'))
+});
 
+app.get('/api/test', (req, res) => {
+  res.send("Hello it's a test msg!")
+});
 
-
-
-app.listen(port);
+/*-------------------------------------------
+Server Listen
+-------------------------------------------*/
+reload(app).then(function (reloadReturned) {
+  server.listen(port, () => {
+console.log(`----------------------------------------------------------
+     Server has been started on http://localhost:${port}
+----------------------------------------------------------`)
+  })
+}).catch(function (err) {
+  console.error('Reload could not start, could not start server/sample app', err)
+})

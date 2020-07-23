@@ -2,7 +2,7 @@ import axios from "axios"
 
 export default {
   async getUser(email, password) {
-    let res = await axios.get('http://localhost:8000/api/user/', {
+    let res = await axios.get('/api/user/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'
@@ -15,7 +15,7 @@ export default {
     return res.data;
   },
   async registerUser(name, email, phone, country, city, address, password) {
-    let res = await axios.get('http://localhost:8000/api/register/', {
+    let res = await axios.get('/api/register/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'
@@ -33,7 +33,7 @@ export default {
     return res.data;
   },
   async postDeal(title, name, phone, email, adress, company, offer_cost) {
-    let res = await axios.get('http://localhost:8000/api/deals/', {
+    let res = await axios.get('/api/deals/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'

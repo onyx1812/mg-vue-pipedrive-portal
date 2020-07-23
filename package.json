@@ -4,7 +4,7 @@
   "description": "Sample app for using mysql with node",
   "main": "./server/server.js",
   "scripts": {
-    "start": "nodemon --ext js --watch ./",
+    "start": "node server/api.js",
     "serve": "nodemon server/server.js",
     "api": "nodemon server/api.js",
     "install": "node server/install.js"
