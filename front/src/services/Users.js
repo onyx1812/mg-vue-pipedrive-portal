@@ -1,8 +1,9 @@
 import axios from "axios"
+const api = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
 
 export default {
   async getUser(email, password) {
-    let res = await axios.get('/api/user/', {
+    let res = await axios.get(api+'/api/user/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'
@@ -15,7 +16,7 @@ export default {
     return res.data;
   },
   async registerUser(name, email, phone, country, city, address, password) {
-    let res = await axios.get('/api/register/', {
+    let res = await axios.get(api+'/api/register/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'
@@ -33,7 +34,7 @@ export default {
     return res.data;
   },
   async postDeal(title, name, phone, email, adress, company, offer_cost) {
-    let res = await axios.get('/api/deals/', {
+    let res = await axios.get(api+'/api/deals/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'

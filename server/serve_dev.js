@@ -64,7 +64,7 @@ app.get('/api/register/', (req, res) => {
       "active_flag": "true"
   }}, (err, resp, body) => {
     if(err){
-      console.log(err);
+      console.error(err);
     } else {
       const owner = JSON.parse(body);
       const password_md5 = md5(req.query.password+md5_hash);
@@ -143,6 +143,7 @@ app.get('/api/deals/', (req, res) => {
               "org_id": Number(org_id)
           }}, (err, resp, body) => {
             if(err){
+              console.error(err);
               res.send(err);
             } else {
               let deal = JSON.parse(body);

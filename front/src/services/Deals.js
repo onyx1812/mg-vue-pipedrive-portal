@@ -1,8 +1,9 @@
 import axios from "axios"
+const api = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000';
 
 export default {
   async postDeals(title, name, phone, email, company, offer_cost, owner_id) {
-    let res = await axios.get('/api/deals/', {
+    let res = await axios.get(api+'/api/deals/', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8'

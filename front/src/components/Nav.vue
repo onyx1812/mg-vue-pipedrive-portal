@@ -1,20 +1,10 @@
 <template>
-  <ul>
-    <li><button @click="goToDeals">Deals</button></li>
-    <li><button @click="goToUploads">Uploads</button></li>
-    <li><button @click="logOut">logOut</button></li>
-  </ul>
+  <a @click="logOut" :title="this.$store.state.txt.logout">{{this.$store.state.txt.logout}}</a>
 </template>
 <script>
 export default {
   name: 'Nav',
   methods: {
-    goToDeals(e){
-      this.$store.state.step = 2;
-    },
-    goToUploads(e){
-      this.$store.state.step = 3;
-    },
     logOut(e){
       this.$store.state.account = 'login';
       this.$store.state.step = 1;
@@ -25,26 +15,35 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-ul{
+a{
   position: fixed;
-  top: 15px;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-li{
-  display: inline-block;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-button{
+  right: 130px;
+  top: 8px;
+  font-size: 0;
+  width: 20px;
+  height: 30px;
   background: none;
-  border: none;
-  color: #35495e;
-  text-transform: uppercase;
-  font-size: 16px;
-  font-weight: 600;
+  border:none;
+  border-left: 2px solid #4fc08d;
+  border-top: 2px solid #4fc08d;
+  border-bottom: 2px solid #4fc08d;
+  &:before{
+    content: "→";
+    color: #4fc08d;
+    font-weight: 700;
+    font-size: 20px;
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-25%, -50%);
+    transition: transform .5s ease;
+  }
   &:hover{
-    opacity: .7;
+    opacity: .9;
+    &:before{
+      transform: translate(0, -50%);
+    }
   }
 }
 </style>

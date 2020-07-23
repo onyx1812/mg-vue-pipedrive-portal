@@ -3,15 +3,25 @@
 .content{
   background: #fff;
   box-shadow: 0 0 200px rgba($accent, .4);
-  padding: 30px;
+  padding: 30px 15px;
   border-radius: 16px;
   position: relative;
   overflow: hidden;
+  @media(min-width:768px){
+    padding: 30px;
+  }
 }
 
 .form{
+  max-width: 100%;
+  ul{
+    li{
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
   &-login{
-    width: 320px;
+    width: 400px;
   }
   &-deals, &-register{
     width: 768px;
@@ -21,11 +31,17 @@
       align-items: center;
       justify-content: center;
       li{
-        flex: 1 50%;
-        max-width: 50%;
+        flex: 1 100%;
+        max-width: 100%;
         margin-top: 15px;
-        padding-left: 15px;
-        padding-right: 15px;
+        @media(min-width:768px){
+          flex: 1 50%;
+          max-width: 50%;
+        }
+        &.field-file{
+          flex: 1 100%;
+          max-width: 100%;
+        }
       }
     }
   }
@@ -64,6 +80,13 @@
       &:hover{
         transform: scale(1.05);
       }
+    }
+    &[type="file"]{
+      height: auto;
+      width: 100%;
+      background: none;
+      padding: 0;
+      border-radius: 0;
     }
   }
   ul{

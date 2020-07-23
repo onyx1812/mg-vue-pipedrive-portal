@@ -1,19 +1,19 @@
 <template>
   <div class="content content-login">
     <form @submit="formSubmit" id="login" class="form form-login">
-      <h2>Log In</h2>
+      <h2>{{this.$store.state.txt.login_title}}</h2>
       <ul class="fields">
         <li class="field">
-          <input type="email" name="email" v-model="email" placeholder="Email" >
+          <input type="email" name="email" v-model="email" :placeholder="this.$store.state.txt.email" >
         </li>
         <li class="field">
-          <input type="password" name="password" v-model="password" placeholder="Password" >
+          <input type="password" name="password" v-model="password" :placeholder="this.$store.state.txt.password" >
         </li>
         <li class="field">
-          <input type="submit" value="LOGIN">
+          <input type="submit" :value="this.$store.state.txt.login_title">
         </li>
       </ul>
-      <div>Don't have an account? <a @click="accRegister">Register</a></div>
+      <div>{{this.$store.state.txt.login_question}} <a @click="accRegister">{{this.$store.state.txt.registration_title}}</a></div>
       <transition name="fade">
         <div class="error" v-if="error">{{error}}</div>
         <div class="sucess" v-if="sucess">{{sucess}}</div>
@@ -26,21 +26,13 @@
 <script>
 import Users from '@/services/Users.js';
 export default {
-  beforeCreate(){
-    const user_data = JSON.parse( sessionStorage.getItem('USER_DATA') );
-    if(user_data){
-      this.$store.state.logined = true;
-      this.$store.state.step = 2;
-      this.$store.state.owner_id = user_data.owner_id;
-    }
-  },
   data() {
     return {
       loader: false,
       error: false,
       sucess: false,
       email: null,
-      password: null,
+      password: null
     };
   },
   methods: {
@@ -53,14 +45,14 @@ export default {
               this.loader = false;
               if(user.length > 0){
                 sessionStorage.setItem('USER_DATA', JSON.stringify(user[0]));
-                this.sucess = `Welcome ${user[0].name}!`;
+                this.sucess = `${this.$store.state.txt.welcome} ${user[0].name}!`;
                 setTimeout(() => {
                   this.$store.state.logined = true;
                   this.$store.state.step = 2;
                 }, 1500);
               } else{
                 this.loader = false;
-                this.error = 'Please check all fields and try againe!';
+                this.error = this.$store.state.txt.error_fields;
               }
             }).bind(this)
           )
@@ -75,7 +67,7 @@ export default {
           });
       } else if (!this.email || !this.password) {
         this.loader = false;
-        this.error = 'Please check all fields and try again!';
+        this.error = this.$store.state.txt.error_fields;
       }
       setTimeout(() => {
         this.error = false;
