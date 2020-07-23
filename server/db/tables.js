@@ -12,7 +12,7 @@ module.exports = (db, callback) => {
 		let sql = `SELECT 1 FROM ${table.name} LIMIT 1`;
 		db.query(sql, (err, result) => {
 			if(result){
-				console.log(`Tabsle "${table.name}" exist!`);
+				console.log(`  Tabsle "${table.name}" exist!`);
 				i++
 				if(tables.length === i){
 					if(callback) callback('end');
@@ -22,7 +22,7 @@ module.exports = (db, callback) => {
 				db.query(sql, (err, result) => {
 					if(err) throw err
 					i++
-					console.log(`Table "${table.name}" created!`);
+					console.log(`  Table "${table.name}" created!`);
 					const date = new Date();
 					if(table.name == 'users'){
 						let user = {
@@ -39,9 +39,10 @@ module.exports = (db, callback) => {
 						sql = 'INSERT INTO users SET ?';
 						db.query(sql, user, (err, result) => {
 							if(err) throw err
-							console.log('User added')
+							console.log('  User = {')
 							console.log('    user: onyx1812')
 							console.log('    pass: 9J8iak45@')
+							console.log('  }')
 						});
 					}
 				})

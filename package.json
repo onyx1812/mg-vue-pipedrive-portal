@@ -1,16 +1,22 @@
 {
-  "name": "project2",
+  "name": "pipe_drive_portal",
   "version": "1.0.0",
-  "description": "Sample app for using mysql with node",
-  "main": "./server/server.js",
-  "scripts": {
-    "start": "node server/api.js",
-    "serve": "nodemon server/server.js",
-    "api": "nodemon server/api.js",
-    "install": "node server/install.js"
+  "description": "App for sending Deals reports to CRM",
+  "homepage": "https://github.com/onyx1812/mg-vue-pipedrive-portal",
+  "author": {
+    "name": "Globa Max",
+    "email": "onyx18121990@gmail.com",
+    "url": "https://www.instagram.com/maxgloba_dev/"
   },
-  "author": "MaxGloba",
   "license": "ISC",
+  "main": "./server/start.js",
+  "scripts": {
+    "start": "node server/start.js",
+    "live": "node server/serve_live.js",
+    "dev": "nodemon server/serve_dev.js",
+    "init:live": "node server/init_live.js",
+    "init:dev": "node server/init_dev.js"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "connect-history-api-fallback": "^1.6.0",

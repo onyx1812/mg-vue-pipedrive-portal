@@ -22,15 +22,11 @@ app.use(express.urlencoded({ extended: true }));
 Connect DB
 -------------------------------------------*/
 const mysql = require('mysql')
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'apheco_admin',
-  password: 'BWJL)an-H(Ml',
-  database: 'apheco_portal'
-});
+const db_conf = require('./db/dev.js')
+const db = mysql.createConnection(db_conf)
 db.connect(err => {
   if(err){ throw err }
-});
+})
 
 /*-------------------------------------------
 Path settings
