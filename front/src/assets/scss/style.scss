@@ -20,7 +20,7 @@
       padding-right: 15px;
     }
   }
-  &-login{
+  &-login, &-file{
     width: 400px;
   }
   &-deals, &-register{
@@ -54,6 +54,11 @@
     font-weight: 700;
     color: $second;
     margin-bottom: 30px;
+    span{
+      color: $accent;
+      font-size: 50px;
+      display: block;
+    }
   }
   input, select{
     background: $accent;
@@ -87,6 +92,23 @@
       background: none;
       padding: 0;
       border-radius: 0;
+    }
+    &[type="file"]{
+      display: none;
+      & + label {
+        background: $accent;
+        border: none;
+        color: $main;
+        display: block;
+        width: 100%;
+        height: 55px;
+        line-height: 55px;
+        padding: 0 15px;
+        font-size: 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        outline: none !important;
+      }
     }
   }
   ul{
@@ -190,4 +212,17 @@
   justify-content: center;
   font-size: 16px;
   font-weight: 700;
+}
+
+h1.success-title{
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: $second;
+  margin-bottom: 30px;
+  span{
+    color: $accent;
+    font-size: 50px;
+    display: block;
+  }
 }

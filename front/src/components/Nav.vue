@@ -1,5 +1,7 @@
 <template>
-  <a @click="logOut" :title="this.$store.state.txt.logout">{{this.$store.state.txt.logout}}</a>
+  <div>
+    <a @click="logOut" :title="this.$store.state.txt.logout">{{this.$store.state.txt.logout}}</a>
+  </div>
 </template>
 <script>
 export default {

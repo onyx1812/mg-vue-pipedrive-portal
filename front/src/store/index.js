@@ -14,6 +14,8 @@ export default new Vuex.Store({
     logined: false,
     user_data: null,
     owner_id: null,
+    deal_id: 4,
+    person_id: 5,
     lang: null,
     txt: lang_en,
     lang_ru: lang_ru,

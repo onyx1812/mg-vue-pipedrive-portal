@@ -1,8 +1,11 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const md5 = require('md5');
-const md5_hash = md5('!@#$%^&*()_+');
-const cors = require('cors');
+const express = require('express')
+const formidable = require('formidable');
+const phpExpress = require('php-express')({binPath: 'php'})
+const bodyParser = require('body-parser')
+const md5 = require('md5')
+const md5_hash = md5('!@#$%^&*()_+')
+const cors = require('cors')
+const fs = require('fs')
 const path = require('path')
 const http = require('http')
 const reload = require('reload')
@@ -11,8 +14,8 @@ const app = express()
 const server = http.createServer(app)
 
 const request = require("request");
-const api_token = '67a36030ab687236cf7250283f5cb55170df2e88';
-const api_url = "https://purpceadlab.pipedrive.com/api/v1/";
+const api_token = '2f43dc5f56a969617c1ecf3b409605e45c9a4e4f';
+const api_url = "https://apheco2.pipedrive.com/api/v1/";
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -31,6 +34,10 @@ db.connect(err => {
 /*-------------------------------------------
 Path settings
 -------------------------------------------*/
+app.engine('php', phpExpress.engine);
+app.set('view engine', 'php');
+app.all(/.+\.php$/, phpExpress.router);
+
 const frontPath = path.join(__dirname, '../front/dist/')
 app.set("view options", {layout: false});
 app.engine('html', require('ejs').renderFile);
@@ -107,7 +114,7 @@ app.get('/api/register/', (req, res) => {
 
 
 app.get('/api/deals/', (req, res) => {
-  let org_id, person_id, owner_id = Number(req.query.owner_id);
+  let org_id, person_id, deal_id, owner_id = Number(req.query.owner_id);
 
   request.post({ //---------------------------------------------create organization
     url: `${api_url}/organizations?api_token=${api_token}`,
@@ -147,7 +154,19 @@ app.get('/api/deals/', (req, res) => {
               res.send(err);
             } else {
               let deal = JSON.parse(body);
-              res.send(deal);
+              if(deal.success){
+                deal_id = deal.data.id;
+                result = {
+                  "success": true,
+                  "person_id": person_id,
+                  "org_id": org_id,
+                  "deal_id": deal_id
+                }
+                res.send(result);
+              } else {
+                res.send(deal);
+              }
+
             }
           });
         }
@@ -158,14 +177,57 @@ app.get('/api/deals/', (req, res) => {
 
 });
 
-
 app.get('/', (req, res) => {
   res.render(path.join(frontPath+'index.html'))
 });
 
-app.get('/api/test', (req, res) => {
-  res.send("Hello it's a test msg!")
+app.get('/fileupload', (req, res) => {
+  res.writeHead(200, {'Content-Type': 'text/html'});
+res.write(`
+<div class="content content-deals">
+  <form action="fileupload" method="post" enctype="multipart/form-data">
+    <ul class="fields">
+      <input type="hidden" name="deal_id" value="4" >
+      <input type="hidden" name="person_id" value="5" >
+      <li class="field">
+        <input type="file" name="filetoupload" placeholder="File" >
+      </li>
+      <li class="field">
+        <input type="submit" value="Send file to the deal">
+      </li>
+    </ul>
+  </form>
+</div>
+`);
+  return res.end();
 });
+app.post('/fileupload', (req, res) => {
+  const form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    const oldpath = files.filetoupload.path;
+    const newpath = path.join(frontPath+'/uploads/'+files.filetoupload.name);
+    fs.rename(oldpath, newpath, err => {
+      if (err) throw err;
+        request.post({
+          url: `${api_url}/files?api_token=${api_token}`,
+          headers: {
+            "Content-Type": "multipart/form-data"
+          },
+          formData: {
+            "file": fs.createReadStream(newpath),
+            "deal_id": fields.deal_id,
+            "person_id": fields.person_id
+        }}, (err, resp, body) => {
+          if(err){
+            console.log(err);
+          } else {
+            res.redirect('/');
+          }
+        });
+    });
+  });
+});
+
 
 /*-------------------------------------------
 Server Listen

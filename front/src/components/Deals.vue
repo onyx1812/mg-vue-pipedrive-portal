@@ -1,6 +1,6 @@
 <template>
   <div class="content content-deals">
-    <form @submit="formSubmit" class="form form-deals">
+    <form @submit="formSubmit" class="form form-deals" enctype="multipart/form-data">
       <h2>{{this.$store.state.txt.deal}}</h2>
       <ul class="fields">
         <li class="field">
@@ -21,7 +21,6 @@
         <li class="field">
           <input type="number" name="offer_cost" v-model="offer_cost" :placeholder="this.$store.state.txt.offer_cost" >
         </li>
-
         <li class="field">
           <input type="submit" :value="this.$store.state.txt.send_deal">
         </li>
@@ -52,18 +51,23 @@ export default {
     }
   },
   methods: {
-
     formSubmit(e) {
+      e.preventDefault();
       this.loader = true;
       const user_data = JSON.parse( sessionStorage.getItem('USER_DATA') );
+
       Deals.postDeals(this.title, this.name, this.phone, this.email, this.company, this.offer_cost, user_data.owner_id)
         .then(
           (res => {
             this.loader = false;
             if(res.success){
+              console.log(res);
               this.sucess = this.$store.state.txt.deal_added;
+              this.$store.state.deal_id = res.deal_id;
+              this.$store.state.person_id = res.person_id;
               setTimeout(()=>{
                 this.sucess = false;
+                this.$store.state.step = 3;
               }, 1500);
             } else {
               console.error(res);
@@ -82,7 +86,6 @@ export default {
             this.error = false;
           }, 1500);
         });
-      e.preventDefault();
     }
   }
 }
